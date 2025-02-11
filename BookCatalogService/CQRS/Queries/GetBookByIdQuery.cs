@@ -1,6 +1,16 @@
-﻿namespace BookCatalogService.CQRS.Queries
+﻿using MediatR;
+using System.Collections.Generic;
+using BookCatalogService.Models;
+
+namespace BookCatalogService.CQRS.Queries
 {
-    public class GetBookByIdQuery
+    public class GetBookByIdQuery : IRequest<Book>
     {
+        public int Id { get; set; }
+
+        public GetBookByIdQuery(int id)
+        {
+            Id = id;
+        }
     }
 }
