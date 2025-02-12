@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using BookCatalogService.Models;
 
-
-
 namespace BookCatalogService.Data
 {
     public class BookDbContext : DbContext
