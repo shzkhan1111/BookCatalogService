@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
-
+import { useSelector ,useDispatch } from "react-redux";
 import Header from "./Header.jsx";
 import SearchBar from "./SearchBar.jsx";
 import BookList from "./BookList.jsx";
 import BookDetails from "./BookDetails.jsx";
 import BookAddNew from "./BookAddNew.jsx";
 import  BookApiService  from "../../services/book.service.js";
+import { useEffect } from "react";
+
+
 
 
 // let sampleBooks = [];
@@ -13,22 +15,32 @@ import  BookApiService  from "../../services/book.service.js";
 
 
 function BookPageMain() {
-  const [sampleBooks , setsampleBooks] = useState([]);
-  const [books, setBooks] = useState(sampleBooks);
-  const [selectedBook, setSelectedBook] = useState(null);
-  const [showAddBook, setShowAddBook] = useState(false);
-  const [error, setError] = useState(null);
+//   const [sampleBooks , setsampleBooks] = useState([]);
+//   const [books, setBooks] = useState(sampleBooks);
+//   const [selectedBook, setSelectedBook] = useState(null);
+//   const [showAddBook, setShowAddBook] = useState(false);
+//   const [error, setError] = useState(null);
+
+const {books  , sampleBooks, selectedBook ,showAddBook ,  error} = useSelector(
+    (state) => state.books
+);    
+
+const dispatch = useDispatch();
+
+
 
   const handleDelete = async (id) =>{
     debugger;
     const result = await BookApiService.deleteBook(id);
     if(result){
       const updatedBooks = books.filter((book) => book.id !== id);
-      setBooks(updatedBooks);
-      setSelectedBook(null);
+    //   setBooks(updatedBooks);
+    //   setSelectedBook(null);
+        dispatch(setBooks(updatedBooks));
+        dispatch(selectedBook(null));
     }
     else{
-      setError('failed to delete book');
+      dispatch(setError('failed to delete book'));
     }
   } 
 
@@ -40,15 +52,20 @@ function BookPageMain() {
       const result = await BookApiService.createBook(newBook);
       console.log('add new book' , result);
       if(result){
-        setBooks([...books, result]);
-        setShowAddBook(false);
-        setsampleBooks([...sampleBooks, newBook]); 
+        // setBooks([...books, result]);
+        // setShowAddBook(false);
+        // setsampleBooks([...sampleBooks, newBook]); 
+        dispatch(setBooks([...books, result]));
+        dispatch(toggleAddBook(false));
+        dispatch(setSampleBooks([...sampleBooks, newBook]));
       }
       else{
-        setError('failed to create a new book');
+        // setError('failed to create a new book');
+        dispatch(setError('failed to create a new book'));
       }
     } catch (error) {
-      setError(error.message);
+    //   setError(error.message);
+        dispatch(setError(error.message));
     }
         
   }
@@ -57,11 +74,14 @@ function BookPageMain() {
     const result = await BookApiService.updateBook(editedBook);
     if(result){
       const updatedBooks = books.map((book) => (book.id === editedBook.id ? editedBook : book));
-      setBooks(updatedBooks);
-      setSelectedBook(null);
+    //   setBooks(updatedBooks);
+    //   setSelectedBook(null);
+    dispatch(setBooks(updatedBooks));
+    dispatch(setSelectedBook(null));
     }
     else{
-      setError('failed to update book');
+    //   setError('failed to update book');
+    dispatch(setError('failed to update book'));
     }
   }
 
@@ -71,43 +91,49 @@ function BookPageMain() {
         try {
             const result = await BookApiService.getAllBooks();
             console.log(result);
-            setBooks(result);
-            setsampleBooks(result);
+            // setBooks(result);
+            // setsampleBooks(result);
+            dispatch(setBooks(result));
+            dispatch(setSampleBooks(result));
         } catch (err) {
-            setError(err.message);
+            // setError(err.message);
+            dispatch(setError(err.message));
         }
     };
 
     fetchData();
-}, []);
+}, [dispatch]);
   
   const handleSearch = (searchTerm) => {
     debugger;
     const filteredBooks = sampleBooks.filter((book) =>
       book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setBooks(filteredBooks);
+    // setBooks(filteredBooks);
+    dispatch(setBooks(filteredBooks));
   };
   const handleSelectBook = (book) => {
-    setSelectedBook(book);
+    // setSelectedBook(book);
+    dispatch(setSelectedBook(book));
   };
 
   const handleCloseDetails = () => {
-    setSelectedBook(null);
+    // setSelectedBook(null);
+    dispatch(setSelectedBook(null));
   };
   
 
   return (
     <div className="app" style={{width: '100%', margin: 'auto', maxWidth: '500rem'}}>
-      <Header />
-      {error && <><p>{error}</p><button onClick={() => setError(null)}>x</button></>}
+      {/* <Header /> */}
+      {error && <><p>{error}</p><button onClick={() => dispatch(setError(null))}>x</button></>}
       <SearchBar onSearch={handleSearch} />
       <BookList books={books} onSelectBook={handleSelectBook} />
 
       <button
         className='add-button'
         style={{ borderRadius: '10px', padding: '10px', margin: '10px', backgroundColor: 'blue', color: 'white' }}
-        onClick={() => setShowAddBook(true)}
+        onClick={() => dispatch(toggleAddBook(true))}
       >
         Add New Book
       </button>
@@ -117,7 +143,7 @@ function BookPageMain() {
         <BookDetails book={selectedBook} onClose={handleCloseDetails} onSave={handleEditBook} onDelete={handleDelete} />
       )}
 
-      {showAddBook && <BookAddNew onClose={() => setShowAddBook(false)} onSave={handleAddBook} />}
+      {showAddBook && <BookAddNew onClose={() =>dispatch(toggleAddBook(false))} onSave={handleAddBook} />}
     </div>
   );
 }
