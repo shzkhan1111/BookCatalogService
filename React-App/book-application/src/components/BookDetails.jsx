@@ -1,16 +1,49 @@
-import React from 'react';
+import React , { useEffect, useState } from 'react';
 
-const BookDetails = ({ book, onClose }) => {
+const BookDetails = ({ book, onClose , onSave , onDelete}) => {
+    const [isEditingBook , setisEditingBook] = useState(false);
+    const [editedBook , setEditedBook] = useState(book);
     if (!book) {
         return null
     }
 
+    const handleSave = (e) => {
+        e.preventDefault();
+        onSave(editedBook);
+        setisEditingBook(false);
+    }
+    const handleDelete = (e) => {
+        debugger;
+        e.preventDefault();
+        onDelete(editedBook.id);
+        setisEditingBook(false);
+        onClose();
+    }
     return (
         <div className='book-details'>
             <button onClick={onClose}>Close</button>
-            <h2>{book.title}</h2>
+            {/* Editing  */}
+            {isEditingBook ? (
+                <>
+                    <input type='text' value={editedBook.title} onChange={(e) => setEditedBook({...editedBook, title: e.target.value})} />
+                    <input type='text' value={editedBook.author} onChange={(e) => setEditedBook({...editedBook, author: e.target.value})} />
+                    <input type='text' value={editedBook.description} onChange={(e) => setEditedBook({...editedBook, description: e.target.value})} />
+                    <input type='text' value={editedBook.price} onChange={(e) => setEditedBook({...editedBook, price: e.target.value})} />
+                    <button onClick={handleSave}>Save</button>
+                    <button onClick={() => setisEditingBook(false)}>Cancel</button>
+                </>
+            )
+        :(
+        <>
+        <h2>{book.title}</h2>
             <h3>By {book.author}</h3>
+            <h4>${book.price}</h4>
             <p>{book.description}</p>
+            <button onClick={() => setisEditingBook(true)}>Edit Book</button>
+            <button onClick={handleDelete}>Delete</button>
+        </>
+        )
+        }
         </div>
     )
 

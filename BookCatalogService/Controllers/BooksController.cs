@@ -5,6 +5,7 @@ using BookCatalogService.CQRS.Queries;
 using BookCatalogService.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net;
 namespace BookCatalogService.Controllers
 {
     [Route("api/[controller]")]
@@ -37,6 +38,33 @@ namespace BookCatalogService.Controllers
         {
             var book = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
+        }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Book>> UpdateBook(UpdateBookCommand updateBookCommand)
+        {
+            try
+            {
+                var updatedBook = await _mediator.Send(updateBookCommand);
+                return Ok(updatedBook);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500 , $"{ex.InnerException.Message} , {ex.Message}");
+            }
+            
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<int>> DeleteBook(int id)
+        {
+            try
+            {
+                var deletedrecords = await _mediator.Send(new DeleteBookCommand(id));
+                return Ok(deletedrecords);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.InnerException.Message} , {ex.Message}");
+            }
         }
 
     }
