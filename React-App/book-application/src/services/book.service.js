@@ -30,7 +30,7 @@ class BookApiService {
 
     static async updateBook(book) {
         try {
-            debugger;
+             
             const response = await axios.put(`${API_BASE_URL}/api/books/${book.id}`, book);
             console.log(response.data);
             return response.data;

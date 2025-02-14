@@ -14,7 +14,7 @@ const bookSlice = createSlice({
         error : null
     },
     reducers: {
-        // like state setState function
+
         setBooks : (state , action) => {
             state.books = action.payload;
         },
@@ -24,7 +24,7 @@ const bookSlice = createSlice({
         setSelectedBook : (state , action) => {
             state.selectedBook = action.payload;
         },
-        toggleAddBook : (state) => {
+        toggleAddBook : (state , action) => {
             state.showAddBook = action.payload;
         },
         setError : (state , action) => {

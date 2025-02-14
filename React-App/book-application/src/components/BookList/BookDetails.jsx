@@ -1,19 +1,27 @@
 import React , { useEffect, useState } from 'react';
+import { addItemToCart } from "../../store/cartSlice";
+import { useDispatch } from "react-redux";
+
 
 const BookDetails = ({ book, onClose , onSave , onDelete}) => {
+    const dispatch = useDispatch(); 
     const [isEditingBook , setisEditingBook] = useState(false);
     const [editedBook , setEditedBook] = useState(book);
     if (!book) {
         return null
     }
 
+    const HandleAddCart = () => {
+        console.log(book)
+        dispatch(addItemToCart(book));
+    }
     const handleSave = (e) => {
         e.preventDefault();
         onSave(editedBook);
         setisEditingBook(false);
     }
     const handleDelete = (e) => {
-        debugger;
+         
         e.preventDefault();
         onDelete(editedBook.id);
         setisEditingBook(false);
@@ -41,6 +49,7 @@ const BookDetails = ({ book, onClose , onSave , onDelete}) => {
             <p>{book.description}</p>
             <button onClick={() => setisEditingBook(true)}>Edit Book</button>
             <button onClick={handleDelete}>Delete</button>
+            <button onClick={HandleAddCart}>Add to Cart</button>
         </>
         )
         }

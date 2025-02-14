@@ -2,9 +2,12 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import bookReducer  from "./bookSlice";
+import cartReducer from "./cartSlice";
 
 export default  configureStore({
     reducer : {
-        books : bookReducer
+        books : bookReducer,
+        cart : cartReducer
     }
 });
+

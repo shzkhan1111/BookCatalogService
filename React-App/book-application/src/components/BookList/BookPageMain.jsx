@@ -4,14 +4,10 @@ import SearchBar from "./SearchBar.jsx";
 import BookList from "./BookList.jsx";
 import BookDetails from "./BookDetails.jsx";
 import BookAddNew from "./BookAddNew.jsx";
+import  Cart  from "../cart/cart.jsx";
 import  BookApiService  from "../../services/book.service.js";
 import { useEffect } from "react";
-
-
-
-
-// let sampleBooks = [];
-
+import { setBooks, setSampleBooks, setSelectedBook, toggleAddBook, setError } from "../../store/bookSlice.js";
 
 
 function BookPageMain() {
@@ -30,14 +26,14 @@ const dispatch = useDispatch();
 
 
   const handleDelete = async (id) =>{
-    debugger;
+     
     const result = await BookApiService.deleteBook(id);
     if(result){
       const updatedBooks = books.filter((book) => book.id !== id);
     //   setBooks(updatedBooks);
     //   setSelectedBook(null);
         dispatch(setBooks(updatedBooks));
-        dispatch(selectedBook(null));
+        dispatch(setSelectedBook(null));
     }
     else{
       dispatch(setError('failed to delete book'));
@@ -48,7 +44,7 @@ const dispatch = useDispatch();
   const handleAddBook = async (newBook) => {
     
     try {
-      debugger;
+       
       const result = await BookApiService.createBook(newBook);
       console.log('add new book' , result);
       if(result){
@@ -105,7 +101,7 @@ const dispatch = useDispatch();
 }, [dispatch]);
   
   const handleSearch = (searchTerm) => {
-    debugger;
+     
     const filteredBooks = sampleBooks.filter((book) =>
       book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -137,6 +133,7 @@ const dispatch = useDispatch();
       >
         Add New Book
       </button>
+      <Cart />
 
     {/* add an edit button here */}
       {selectedBook && (
@@ -144,7 +141,10 @@ const dispatch = useDispatch();
       )}
 
       {showAddBook && <BookAddNew onClose={() =>dispatch(toggleAddBook(false))} onSave={handleAddBook} />}
+
+      
     </div>
+    
   );
 }
 

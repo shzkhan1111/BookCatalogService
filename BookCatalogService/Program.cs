@@ -5,6 +5,9 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient();
+
+
 builder.Services.AddCors(
     options =>
     options.AddPolicy("AllowReactApp",
