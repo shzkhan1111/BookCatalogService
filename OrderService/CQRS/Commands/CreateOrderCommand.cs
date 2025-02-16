@@ -1,5 +1,5 @@
-﻿using MediatR;
-using OrderService.Models;
+﻿using DataAccess.Models;
+using MediatR;
 
 namespace OrderService.CQRS.Commands
 {

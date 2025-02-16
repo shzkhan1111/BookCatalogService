@@ -1,13 +1,14 @@
-﻿using BookCatalogService.Data;
-using BookCatalogService.Models;
+﻿using BookCatalogService.Models;
+using DataAccess.Data;
+using DataAccess.Models;
 using MediatR;
 
 namespace BookCatalogService.CQRS.Commands
 {
     public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand , Book>
     {
-        private readonly BookDbContext _context;
-        public UpdateBookCommandHandler(BookDbContext context)
+        private readonly BookingOrderingDBContext _context;
+        public UpdateBookCommandHandler(BookingOrderingDBContext context)
         {
             _context = context;
         }
