@@ -22,6 +22,8 @@ namespace DataAccess.Models
         public User Users { get; set; }
         [Precision(18, 2)]
         public decimal TotalPrice { get; set; }
-        
+
+        public ICollection<OrderItems> OrderItems { get; set; }
+
     }
 }
