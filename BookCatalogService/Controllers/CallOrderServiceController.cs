@@ -1,5 +1,5 @@
 ﻿using BookCatalogService.CQRS.Commands;
-using BookCatalogService.Models.ModelDTOs;
+using DataAccess.ModelDTOs;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ namespace BookCatalogService.Controllers
         }
 
         [HttpPost("CreateOrder")]
-        public async Task<List<OrderDTO>> PlaceOrder(PlaceOrderCommand command)
+        public async Task<List<OrderGroupDTO>> PlaceOrder(PlaceOrderCommand command)
         {
             var order = await _mediator.Send(command);
             return order;

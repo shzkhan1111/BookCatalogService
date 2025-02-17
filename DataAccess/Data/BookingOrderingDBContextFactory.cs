@@ -8,7 +8,7 @@ public class BookingOrderingDBContextFactory : IDesignTimeDbContextFactory<Booki
     public BookingOrderingDBContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<BookingOrderingDBContext>();
-        optionsBuilder.UseSqlServer("Server=DESKTOP-US7PK73\\MSSQLSERVER01;Database=MicroServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer("Server=SHAHZAIBAHMED-L\\SQLEXPRESS;Database=BookOrderingMicroServiceDB;Trusted_Connection=True;TrustServerCertificate=True;"); 
         return new BookingOrderingDBContext(optionsBuilder.Options);
     }
 }

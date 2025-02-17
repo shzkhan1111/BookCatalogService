@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using BookCatalogService.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading;

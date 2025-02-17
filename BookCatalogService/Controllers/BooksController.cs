@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using BookCatalogService.CQRS.Commands;
 using BookCatalogService.CQRS.Queries;
-using BookCatalogService.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;

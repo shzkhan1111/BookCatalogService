@@ -20,14 +20,13 @@ namespace OrderService.Controllers
         public async Task<ActionResult<Order>> CreateOrder(CreateOrderCommand command)
         {
             var order = await _mediator.Send(command);
-            return CreatedAtAction(nameof(CreateOrder), new { id = order.Id }, order);
+            return Ok(order);
         }
         [HttpPost("checkout")]
-        public async Task<ActionResult<Order>> CheckOutOrder(PlaceOrderCommand command)
+        public async Task<ActionResult<Order>> CheckOutOrder(CreateOrderCommand command)
         {
-            ///continue from here
             var order = await _mediator.Send(command);
-            return Created(nameof(CreateOrder) , order);
+            return Created(nameof(CheckOutOrder) , order);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using BookCatalogService.Models;
-using DataAccess.Data;
+﻿using DataAccess.Data;
 using DataAccess.Models;
 using MediatR;
 
@@ -22,7 +21,16 @@ namespace BookCatalogService.CQRS.Commands
                 Price = request.Price
             };
             _context.Books.Add(book);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+
+                await _context.SaveChangesAsync(cancellationToken);
+
+            }
+            catch (Exception ed)
+            {
+                throw ed;
+            }
             return book;
         }
     }

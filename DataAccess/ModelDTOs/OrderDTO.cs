@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrderService.DTO;
 
 namespace DataAccess.ModelDTOs
 {

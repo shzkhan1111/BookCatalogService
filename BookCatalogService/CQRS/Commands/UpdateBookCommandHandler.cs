@@ -1,5 +1,4 @@
-﻿using BookCatalogService.Models;
-using DataAccess.Data;
+﻿using DataAccess.Data;
 using DataAccess.Models;
 using MediatR;
 

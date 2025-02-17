@@ -17,7 +17,7 @@ namespace OrderService.CQRS.Commands
 
             var orders = new List<Order>();
 
-            
+
             //handle the request
             throw new NotImplementedException();
         }

@@ -1,17 +1,14 @@
-﻿using DataAccess.Models;
+﻿using DataAccess.ModelDTOs;
+using DataAccess.Models;
 using MediatR;
 
 namespace OrderService.CQRS.Commands
 {
-    public class CreateOrderCommand : IRequest<Order>
+    public class CreateOrderCommand : IRequest<int>
     {
-        public List<OrderGroup> Order { get; set; }
+        public List<OrderGroupDTO> Order { get; set; }
         public string CreditCardNo { get; set; }
 
-        public CreateOrderCommand(int bookId, int quantity)
-        {
-            BookId = bookId;
-            Quantity = quantity;
-        }
+        
     }
 }

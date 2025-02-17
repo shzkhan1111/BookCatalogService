@@ -1,5 +1,4 @@
-﻿using BookCatalogService.Models;
-using DataAccess.Models;
+﻿using DataAccess.Models;
 using MediatR;
 
 namespace BookCatalogService.CQRS.Commands

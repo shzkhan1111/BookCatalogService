@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OrderService.CQRS.Commands
 {
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Order>
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, int>
     {
         private readonly BookingOrderingDBContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -20,26 +20,32 @@ namespace OrderService.CQRS.Commands
             _context = context;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<Order> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            // Use HttpClient to call the Book Catalog Service
-            var client = _httpClientFactory.CreateClient();
+            List<Order> orderslist = new List<Order>();
 
-            var bookres = await client.PostAsJsonAsync($"https://localhost:7088/api/books" , request , cancellationToken);
-            var book = await bookres.Content.ReadFromJsonAsync<BookDto>(cancellationToken: cancellationToken);
-            if (book == null)
+            foreach(var o in request.Order) 
             {
-                throw new System.Exception("Book not found");
+
+                foreach (var item in o.Items)
+                {
+                    var orderitem = new Order();
+                    orderitem.TotalPrice = request.Order
+                        .SelectMany(x => x.Items)
+                        .Sum(x => x.Price);
+
+
+                    orderitem.UserId = 1;
+                    orderitem.BookId = item.Id;
+
+                    orderslist.Add(orderitem);
+
+                }
             }
-            var order = new Order
-            {
-                BookId = request.BookId,
-                TotalPrice = book.Price * request.Quantity
-            };
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync(cancellationToken);
-            return order;
+            _context.AddRange(orderslist);
+           return await _context.SaveChangesAsync();
+            
         }
     }
 }

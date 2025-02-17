@@ -28,12 +28,18 @@ namespace DataAccess.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-US7PK73\\MSSQLSERVER01;Database=MicroServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Server=SHAHZAIBAHMED-L\\SQLEXPRESS;Database=BookOrderingMicroServiceDB;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<OrderItems>()
+                .HasOne(i => i.Users)
+                .WithMany()
+                .HasForeignKey(i => i.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>(entity =>
             {

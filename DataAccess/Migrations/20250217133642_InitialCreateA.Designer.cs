@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(BookingOrderingDBContext))]
-    [Migration("20250216145539_AddPaymentModule")]
-    partial class AddPaymentModule
+    [Migration("20250217133642_InitialCreateA")]
+    partial class InitialCreateA
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,7 +217,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Models.OrderItems", b =>
                 {
                     b.HasOne("DataAccess.Models.Order", "Orders")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -225,12 +225,17 @@ namespace DataAccess.Migrations
                     b.HasOne("DataAccess.Models.User", "Users")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Orders");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("DataAccess.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

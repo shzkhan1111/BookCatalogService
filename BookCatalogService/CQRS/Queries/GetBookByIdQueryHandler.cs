@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using BookCatalogService.Models;
 using System.Threading;
 using System.Threading.Tasks;
 using DataAccess.Data;
