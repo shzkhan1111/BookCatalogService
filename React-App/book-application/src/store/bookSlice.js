@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import book from "../models/books";
 
 //creating book slice which state and a method equal to setState 
 

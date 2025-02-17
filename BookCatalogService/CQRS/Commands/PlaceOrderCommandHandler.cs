@@ -1,4 +1,7 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
+using Azure;
 using BookCatalogService.Models.ModelDTOs;
 using MediatR;
 
@@ -7,7 +10,7 @@ namespace BookCatalogService.CQRS.Commands
     public class PlaceOrderCommandHandler : IRequestHandler<PlaceOrderCommand, List<OrderDTO>>
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        const string orderServiceUrl = "https://localhost:7088/api/orders";
+        const string orderServiceUrl = "https://localhost:7163/api/orders";
         public PlaceOrderCommandHandler(IHttpClientFactory clientFactory)
         {
             _httpClientFactory = clientFactory;
@@ -15,9 +18,11 @@ namespace BookCatalogService.CQRS.Commands
         public async Task<List<OrderDTO>> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
         {
             var client = _httpClientFactory.CreateClient();
-            var book = await client.GetFromJsonAsync<OrderDTO>($"{orderServiceUrl}/{1}", cancellationToken);
+            var requestJson = JsonSerializer.Serialize(request);
+            var book = await client.PostAsJsonAsync($"{orderServiceUrl}", requestJson, cancellationToken);
+            var order = await book.Content.ReadFromJsonAsync<List<OrderDTO>>(cancellationToken: cancellationToken);
 
-            return null;
+            return order;
         }
     }
 }

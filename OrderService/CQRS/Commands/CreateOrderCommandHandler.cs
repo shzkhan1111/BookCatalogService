@@ -23,8 +23,9 @@ namespace OrderService.CQRS.Commands
         {
             // Use HttpClient to call the Book Catalog Service
             var client = _httpClientFactory.CreateClient();
-            // Adjust the URL if necessary (assumes BookCatalogService is running on port 5001)https://localhost:7088/swagger/index.html
-            var book = await client.GetFromJsonAsync<BookDto>($"https://localhost:7088/api/books/{request.BookId}", cancellationToken);
+
+            var bookres = await client.PostAsJsonAsync($"https://localhost:7088/api/books" , request , cancellationToken);
+            var book = await bookres.Content.ReadFromJsonAsync<BookDto>(cancellationToken: cancellationToken);
             if (book == null)
             {
                 throw new System.Exception("Book not found");

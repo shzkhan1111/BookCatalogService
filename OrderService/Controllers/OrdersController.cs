@@ -16,7 +16,7 @@ namespace OrderService.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost]  
         public async Task<ActionResult<Order>> CreateOrder(CreateOrderCommand command)
         {
             var order = await _mediator.Send(command);
