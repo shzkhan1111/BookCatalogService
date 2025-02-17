@@ -1,13 +1,13 @@
 ﻿using MediatR;
-using BookCatalogService.Data;
 using BookCatalogService.Models;
+using DataAccess.Data;
 
 namespace BookCatalogService.CQRS.Commands
 {
     public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand, int>
     {
-        private readonly BookDbContext _context;
-        public DeleteBookCommandHandler(BookDbContext bookDbContext)
+        private readonly BookingOrderingDBContext _context;
+        public DeleteBookCommandHandler(BookingOrderingDBContext bookDbContext)
         {
             _context = bookDbContext;
         }

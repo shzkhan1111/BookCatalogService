@@ -18,9 +18,18 @@ namespace BookCatalogService.CQRS.Commands
         public async Task<List<OrderDTO>> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
         {
             var client = _httpClientFactory.CreateClient();
-            var requestJson = JsonSerializer.Serialize(request);
-            var book = await client.PostAsJsonAsync($"{orderServiceUrl}", requestJson, cancellationToken);
-            var order = await book.Content.ReadFromJsonAsync<List<OrderDTO>>(cancellationToken: cancellationToken);
+            try
+            {
+
+                var book = await client.PostAsJsonAsync($"{orderServiceUrl}/checkout", request , cancellationToken)  ;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            //var requestJson = JsonSerializer.Serialize(request);
+            //var book = await client.PostAsJsonAsync($"{orderServiceUrl}", requestJson, cancellationToken);
+            //var order = await book.Content.ReadFromJsonAsync<List<OrderDTO>>(cancellationToken: cancellationToken);
 
             return order;
         }

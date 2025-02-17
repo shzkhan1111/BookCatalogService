@@ -1,7 +1,8 @@
-using BookCatalogService.Data;
+using DataAccess.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,7 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<BookDbContext>(options =>
+builder.Services.AddDbContext<BookingOrderingDBContext>(options =>
     options.UseSqlServer(connectionString));
 
 
@@ -44,6 +45,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
 
 app.UseHttpsRedirection();

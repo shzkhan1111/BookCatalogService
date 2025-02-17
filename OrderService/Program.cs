@@ -1,13 +1,14 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using OrderService.Data;
 using System.Reflection;
+using OrderService.MiddleWare.MiddleWareExtention;
+using DataAccess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(
-    options => 
-    options.AddPolicy("AllowReactApp" , 
+    options =>
+    options.AddPolicy("AllowReactApp",
     policy =>
     {
         policy.WithOrigins("http://localhost:5173")
@@ -25,12 +26,18 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<OrderDbContext>(options =>
+builder.Services.AddDbContext<BookingOrderingDBContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddHttpClient();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    await SeedData.SeedDataBaseAsync(app);
+}
+
 
 app.UseCors("AllowReactApp");
 
@@ -41,6 +48,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
 
 app.UseAuthorization();
 

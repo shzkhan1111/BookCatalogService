@@ -6,6 +6,7 @@ using BookCatalogService.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
+using DataAccess.Models;
 namespace BookCatalogService.Controllers
 {
     [Route("api/[controller]")]
