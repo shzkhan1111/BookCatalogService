@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Book } from '../../models/books';
 
+interface BookAddNewProps{
+    onClose : () => void;
+    onSave : (book : Book) => void;
+}
 
-const BookAddNew = ({onClose , onSave}) =>{
+const BookAddNew : React.FC<BookAddNewProps>= ({onClose , onSave}) =>{
 
-    const [formData , setFormData] = React.useState({
+    const [formData, setFormData] = useState<Book>({
         title: '',
         author: '',
         description: '',
-        price: 0
+        price: 0,
+        id : 0
     });
 
-    const handleChange = (e) => { 
+    const handleChange = (e : React.MouseEvent<HTMLButtonElement>) => { 
         e.preventDefault();
         onSave(formData);
     };
@@ -32,7 +38,7 @@ const BookAddNew = ({onClose , onSave}) =>{
             />
             <input type='number' placeholder='$0.00' 
             value={formData.price}
-            onChange={(e) => setFormData({...formData, price: e.target.value})}
+            onChange={(e) => setFormData({...formData, price: Number(e.target.value)})}
             />
             <br/>
             <textarea placeholder='Description'

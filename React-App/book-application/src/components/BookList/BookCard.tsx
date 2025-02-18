@@ -1,6 +1,10 @@
 import React from 'react';
-
-const BookCard  = ({book , onSelect}) => {
+import { Book } from '../../models/books';
+interface BookListProps{
+    book : Book,
+    onSelect : (book : Book) => void
+}
+const BookCard : React.FC<BookListProps> = ({book , onSelect}) => {
 
     return(
         <div className="book-card" onClick={() => onSelect(book)}>

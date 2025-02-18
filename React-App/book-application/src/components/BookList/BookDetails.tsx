@@ -1,9 +1,16 @@
 import React , { useEffect, useState } from 'react';
 import { addItemToCart } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
+import { Book } from '../../models/books';
 
+interface BookDetailsProps{
+    book : Book;
+    onClose: () => void;
+    onSave : (Book : Book) => void;
+    onDelete : (id : number) => void
+}
 
-const BookDetails = ({ book, onClose , onSave , onDelete}) => {
+const BookDetails : React.FC<BookDetailsProps> = ({ book, onClose , onSave , onDelete}) => {
     const dispatch = useDispatch(); 
     const [isEditingBook , setisEditingBook] = useState(false);
     const [editedBook , setEditedBook] = useState(book);
@@ -15,12 +22,12 @@ const BookDetails = ({ book, onClose , onSave , onDelete}) => {
         console.log(book)
         dispatch(addItemToCart(book));
     }
-    const handleSave = (e) => {
+    const handleSave = (e : React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         onSave(editedBook);
         setisEditingBook(false);
     }
-    const handleDelete = (e) => {
+    const handleDelete = (e : React.MouseEvent<HTMLButtonElement>) => {
          
         e.preventDefault();
         onDelete(editedBook.id);
@@ -36,7 +43,7 @@ const BookDetails = ({ book, onClose , onSave , onDelete}) => {
                     <input type='text' value={editedBook.title} onChange={(e) => setEditedBook({...editedBook, title: e.target.value})} />
                     <input type='text' value={editedBook.author} onChange={(e) => setEditedBook({...editedBook, author: e.target.value})} />
                     <input type='text' value={editedBook.description} onChange={(e) => setEditedBook({...editedBook, description: e.target.value})} />
-                    <input type='text' value={editedBook.price} onChange={(e) => setEditedBook({...editedBook, price: e.target.value})} />
+                    <input type='text' value={editedBook.price} onChange={(e) => setEditedBook({...editedBook, price: Number(e.target.value)})} />
                     <button onClick={handleSave}>Save</button>
                     <button onClick={() => setisEditingBook(false)}>Cancel</button>
                 </>

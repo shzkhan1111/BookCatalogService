@@ -94,9 +94,9 @@ const dispatch = useDispatch();
     );
     dispatch(setBooks(filteredBooks));
   };
-  const handleSelectBook = (book) => {
-    dispatch(setSelectedBook(book));
-  };
+    const handleSelectBook = (book) => {
+      dispatch(setSelectedBook(book));
+    };
 
   const handleCloseDetails = () => {
     dispatch(setSelectedBook(null));
