@@ -1,9 +1,11 @@
 import { useSelector, useDispatch }  from "react-redux";
 import { removeItemFromCart , clearCart  } from "../../store/cartSlice";
 import  OrderApiService  from "../../services/order.service";
+import { Book } from "../../models/books";
 
 const Cart = () => {   
-    const cartItems = useSelector(state => state.cart.items);
+
+    const cartItems = useSelector((state: { cart: { items: Book[] } }) => state.cart.items);
     const dispatch = useDispatch();
      
     console.log("writing cart items");      
@@ -17,7 +19,8 @@ const Cart = () => {
             debugger;
             console.log("cartItems");
             console.log(cartItems);
-            const result = await OrderApiService.placeOrder({items: cartItems}  , creditcardNo);
+            debugger;
+            const result = await OrderApiService.placeOrder(cartItems  , creditcardNo);
             if(result){
                 alert("Thank you for your purchase");
                 dispatch(clearCart());

@@ -24,28 +24,23 @@ namespace OrderService.CQRS.Commands
         {
             List<Order> orderslist = new List<Order>();
 
-            foreach(var o in request.Order) 
+            foreach (var o in request.Order)
             {
-
-                foreach (var item in o.Items)
-                {
-                    var orderitem = new Order();
-                    orderitem.TotalPrice = request.Order
-                        .SelectMany(x => x.Items)
-                        .Sum(x => x.Price);
+                var orderitem = new Order();
+                orderitem.TotalPrice = request.Order
+                    .Sum(x => x.Price);
 
 
-                    orderitem.UserId = 1;
-                    orderitem.BookId = item.Id;
+                orderitem.UserId = 1;
+                orderitem.BookId = o.Id;
 
-                    orderslist.Add(orderitem);
+                orderslist.Add(orderitem);
 
-                }
             }
 
             _context.AddRange(orderslist);
-           return await _context.SaveChangesAsync();
-            
+            return await _context.SaveChangesAsync();
+
         }
     }
 }

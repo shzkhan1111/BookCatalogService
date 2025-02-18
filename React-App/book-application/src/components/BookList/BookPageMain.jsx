@@ -11,11 +11,6 @@ import { setBooks, setSampleBooks, setSelectedBook, toggleAddBook, setError } fr
 
 
 function BookPageMain() {
-//   const [sampleBooks , setsampleBooks] = useState([]);
-//   const [books, setBooks] = useState(sampleBooks);
-//   const [selectedBook, setSelectedBook] = useState(null);
-//   const [showAddBook, setShowAddBook] = useState(false);
-//   const [error, setError] = useState(null);
 
 const {books  , sampleBooks, selectedBook ,showAddBook ,  error} = useSelector(
     (state) => state.books
@@ -30,8 +25,7 @@ const dispatch = useDispatch();
     const result = await BookApiService.deleteBook(id);
     if(result){
       const updatedBooks = books.filter((book) => book.id !== id);
-    //   setBooks(updatedBooks);
-    //   setSelectedBook(null);
+
         dispatch(setBooks(updatedBooks));
         dispatch(setSelectedBook(null));
     }
@@ -48,19 +42,16 @@ const dispatch = useDispatch();
       const result = await BookApiService.createBook(newBook);
       console.log('add new book' , result);
       if(result){
-        // setBooks([...books, result]);
-        // setShowAddBook(false);
-        // setsampleBooks([...sampleBooks, newBook]); 
+
         dispatch(setBooks([...books, result]));
         dispatch(toggleAddBook(false));
         dispatch(setSampleBooks([...sampleBooks, newBook]));
       }
       else{
-        // setError('failed to create a new book');
+
         dispatch(setError('failed to create a new book'));
       }
     } catch (error) {
-    //   setError(error.message);
         dispatch(setError(error.message));
     }
         
@@ -70,13 +61,11 @@ const dispatch = useDispatch();
     const result = await BookApiService.updateBook(editedBook);
     if(result){
       const updatedBooks = books.map((book) => (book.id === editedBook.id ? editedBook : book));
-    //   setBooks(updatedBooks);
-    //   setSelectedBook(null);
+
     dispatch(setBooks(updatedBooks));
     dispatch(setSelectedBook(null));
     }
     else{
-    //   setError('failed to update book');
     dispatch(setError('failed to update book'));
     }
   }
@@ -87,8 +76,6 @@ const dispatch = useDispatch();
         try {
             const result = await BookApiService.getAllBooks();
             console.log(result);
-            // setBooks(result);
-            // setsampleBooks(result);
             dispatch(setBooks(result));
             dispatch(setSampleBooks(result));
         } catch (err) {
@@ -105,16 +92,13 @@ const dispatch = useDispatch();
     const filteredBooks = sampleBooks.filter((book) =>
       book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    // setBooks(filteredBooks);
     dispatch(setBooks(filteredBooks));
   };
   const handleSelectBook = (book) => {
-    // setSelectedBook(book);
     dispatch(setSelectedBook(book));
   };
 
   const handleCloseDetails = () => {
-    // setSelectedBook(null);
     dispatch(setSelectedBook(null));
   };
   

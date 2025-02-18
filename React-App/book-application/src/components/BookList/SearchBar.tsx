@@ -1,13 +1,18 @@
 import React  ,  { useState } from "react";
 
-const SearchBar = ({onSearch}) => {
+interface  SearchBarProps{
+    onSearch : (term : string) => void;
+}
+
+
+const SearchBar : React.FC<SearchBarProps>= ({onSearch}) => {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
       };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         onSearch(searchTerm);
     };

@@ -19,7 +19,7 @@ namespace BookCatalogService.Controllers
         }
 
         [HttpPost("CreateOrder")]
-        public async Task<List<OrderGroupDTO>> PlaceOrder(PlaceOrderCommand command)
+        public async Task<int> PlaceOrder(PlaceOrderCommand command)
         {
             var order = await _mediator.Send(command);
             return order;

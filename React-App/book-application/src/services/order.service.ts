@@ -6,12 +6,12 @@ import { orderPlaced } from "../models/order";
 const API_BASE_URL = "https://localhost:7088";
 
 class OrderApiService  {
-    static async placeOrder(order : Book , creditcardNo : string) : Promise<orderPlaced[] | null>{
+    static async placeOrder(order : Book[] , creditcardNo : string) : Promise<orderPlaced[] | null>{
         debugger;
         try {
             debugger;
             const OrderDTO = {
-                order: [order],
+                order: order,
                 creditCardNo : creditcardNo
             };
             console.log("Order DTO is : called");
@@ -24,7 +24,7 @@ class OrderApiService  {
         catch (error) {
             console.error(error);
             throw error;
-            
+
         }
     }
 }

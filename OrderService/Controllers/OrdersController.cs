@@ -23,7 +23,7 @@ namespace OrderService.Controllers
             return Ok(order);
         }
         [HttpPost("checkout")]
-        public async Task<ActionResult<Order>> CheckOutOrder(CreateOrderCommand command)
+        public async Task<ActionResult<int>> CheckOutOrder(CreateOrderCommand command)
         {
             var order = await _mediator.Send(command);
             return Created(nameof(CheckOutOrder) , order);
