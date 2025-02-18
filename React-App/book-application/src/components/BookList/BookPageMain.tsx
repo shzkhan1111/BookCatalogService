@@ -1,26 +1,35 @@
 import { useSelector ,useDispatch } from "react-redux";
-import Header from "./Header.jsx";
-import SearchBar from "./SearchBar.jsx";
-import BookList from "./BookList.jsx";
-import BookDetails from "./BookDetails.jsx";
-import BookAddNew from "./BookAddNew.jsx";
-import  Cart  from "../cart/cart.jsx";
+import Header from "./Header.js";
+import SearchBar from "./SearchBar.js";
+import BookList from "./BookList.js";
+import BookDetails from "./BookDetails.js";
+import BookAddNew from "./BookAddNew.js";
+import  Cart  from "../cart/cart.js";
 import  BookApiService  from "../../services/book.service.js";
 import { useEffect } from "react";
 import { setBooks, setSampleBooks, setSelectedBook, toggleAddBook, setError } from "../../store/bookSlice.js";
+import { Book } from "../../models/books.js";
 
+interface BookState{
+  books : Book[];
+  sampleBooks : Book[];
+  selectedBook : Book | null;
+  showAddBook : boolean;
+  error : string | null
+}
 
-function BookPageMain() {
+const BookPageMain : React.FC = () =>  {
+
 
 const {books  , sampleBooks, selectedBook ,showAddBook ,  error} = useSelector(
-    (state) => state.books
+    (state : {books : BookState}) => state.books
 );    
 
 const dispatch = useDispatch();
 
 
 
-  const handleDelete = async (id) =>{
+  const handleDelete = async (id : number) =>{
      
     const result = await BookApiService.deleteBook(id);
     if(result){
@@ -35,7 +44,7 @@ const dispatch = useDispatch();
   } 
 
   // this function will be passed to the child component <BookAddNew /> to handle the new book
-  const handleAddBook = async (newBook) => {
+  const handleAddBook = async (newBook : Book) => {
     
     try {
        
@@ -52,12 +61,17 @@ const dispatch = useDispatch();
         dispatch(setError('failed to create a new book'));
       }
     } catch (error) {
-        dispatch(setError(error.message));
+        // dispatch(setError((error as Error).message || ""));
+        if(error instanceof Error){
+          dispatch(setError(error.message || "Unknown Error Has Occured"))
+        }else{
+          dispatch(setError("Some Error has occured"))
+        }
     }
         
   }
 
-  const  handleEditBook = async (editedBook) => {
+  const  handleEditBook = async (editedBook : Book) => {
     const result = await BookApiService.updateBook(editedBook);
     if(result){
       const updatedBooks = books.map((book) => (book.id === editedBook.id ? editedBook : book));
@@ -78,23 +92,27 @@ const dispatch = useDispatch();
             console.log(result);
             dispatch(setBooks(result));
             dispatch(setSampleBooks(result));
-        } catch (err) {
+        } catch (error) {
             // setError(err.message);
-            dispatch(setError(err.message));
+            if(error instanceof Error){
+              dispatch(setError(error.message || "Unknown Error Has Occured"))
+            }else{
+              dispatch(setError("Some Error has occured"))
+            }
         }
     };
 
     fetchData();
 }, [dispatch]);
   
-  const handleSearch = (searchTerm) => {
+  const handleSearch = (searchTerm: string) => {
      
     const filteredBooks = sampleBooks.filter((book) =>
       book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     dispatch(setBooks(filteredBooks));
   };
-    const handleSelectBook = (book) => {
+    const handleSelectBook = (book : Book) => {
       dispatch(setSelectedBook(book));
     };
 

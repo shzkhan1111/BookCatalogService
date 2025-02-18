@@ -27,8 +27,7 @@ namespace OrderService.CQRS.Commands
             foreach (var o in request.Order)
             {
                 var orderitem = new Order();
-                orderitem.TotalPrice = request.Order
-                    .Sum(x => x.Price);
+                orderitem.TotalPrice = o.Price;
 
 
                 orderitem.UserId = 1;
