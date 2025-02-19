@@ -1,4 +1,5 @@
-﻿using DataAccess.Data;
+﻿using System.Net.Security;
+using DataAccess.Data;
 using DataAccess.Models;
 using MediatR;
 
@@ -29,7 +30,8 @@ namespace BookCatalogService.CQRS.Commands
             }
             catch (Exception ed)
             {
-                throw ed;
+                Console.WriteLine(ed);
+                throw;
             }
             return book;
         }

@@ -56,6 +56,10 @@ namespace DataAccess.Data
             modelBuilder.Entity<Librarian>().HasBaseType<User>();
             modelBuilder.Entity<Student>().HasBaseType<User>();
 
+            modelBuilder.Entity<User>()
+                .HasIndex(e => e.Email)
+                .IsUnique(true);
+
         }
     }
 }

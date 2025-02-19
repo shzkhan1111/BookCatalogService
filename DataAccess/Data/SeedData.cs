@@ -45,7 +45,7 @@ namespace DataAccess.Data
                             Password = "securepassword",
                             //UserType = "Student",
                             StudentID = "STU456",
-                            BatchNumber = "2025"
+                            BatchNumber = "2025"    
                         }
                     );
 
