@@ -56,12 +56,30 @@ class Box<Y>{
   }
 
 }
-function App() {
-  let b = new Box<number>(5)
-  let c = new Box<string>("4dedded")
+interface User{
+  id:number,
+  name: string;
+  email: string;
+}
 
-  b.getValue();
-  c.getValue()
+function SomeFunction(): Promise<User> {
+  return new Promise((resolve) => {
+    // debugger;
+    setTimeout(() => resolve({email : "iejd" , id : 55 , name : "sded"}), 5000); // Takes 5 seconds
+  });
+}
+function App() {
+  debugger;
+  console.log("first line");
+  SomeFunction().then(
+  (user) => {
+    console.log("2nd line"); 
+    console.log(user); // Step 2
+  }
+  ).catch(
+    (err) => console.error(err)
+  );
+  console.log("final line");
 
 
   return (
