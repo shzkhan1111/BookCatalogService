@@ -7,80 +7,33 @@ import  HomePage  from "./components/Home/HomePage.jsx";
 import NavigationButtons from './components/Navigation/Navigation.jsx';
 import { V } from 'vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P.js';
 
-//overloading 
-// function SomeFunction(arg: number): number;
-// function SomeFunction(arg: string): string;
-// function SomeFunction(): void;
-// function SomeFunction(arg? : number | string) : number | string | void{
-//   if(typeof arg === "number"){
-//     return arg * 10;
+// class KeyValue<K , V >{
+//   key : K;
+//   value : V;
+
+//   constructor(key : K ,value : V ) {
+//     this.key = key;
+//         this.value = value;
 //   }
-//   if(typeof arg === "string"){
-//     return arg.substring(0,2)
-//   }
-//   console.log("Written inside the function ")
-//   return
 // }
-
-//generics 
-// function SomeFunction<T>(arg : T) : T{
-
-//   if(typeof arg == "string"){
-//     console.log(arg.substring(0,2))
-//   }
-//   return arg;
-// }
-// interface LengthWise {
-//   length: number;
-// }
-// function getLength<T extends LengthWise>(arg : T) : number{
-//   console.log(arg.length)
-//   return arg.length
-// }
-class Box<Y>{
-  private v: Y
-  
-  constructor(v1 : Y) {
-    this.v = v1;
-  }
-
-  getValue() : Y{
-    if(typeof this.v === "string"){
-      console.log(this.v.substring(0,5))
-      return this.v
-    }
-    
-    console.log("Not a string")
-
-    return this.v
-  }
-
-}
-interface User{
-  id:number,
-  name: string;
-  email: string;
+function mergeObjects<T , U>(obj1 : T , obj2 : U) : T & U{
+  return {...obj1 , ...obj2};
 }
 
-function SomeFunction(): Promise<User> {
-  return new Promise((resolve) => {
-    // debugger;
-    setTimeout(() => resolve({email : "iejd" , id : 55 , name : "sded"}), 5000); // Takes 5 seconds
-  });
-}
 function App() {
   debugger;
-  console.log("first line");
-  SomeFunction().then(
-  (user) => {
-    console.log("2nd line"); 
-    console.log(user); // Step 2
-  }
-  ).catch(
-    (err) => console.error(err)
-  );
-  console.log("final line");
+  const user = { role: 454 ,name: "Alice", age: 30 };
+  const job = { role: "Developer", salary: 50000 };
+  const merged = mergeObjects(user , job);
+  console.log(merged);
+  // const pairs : KeyValue<string, number>[] = [];
 
+  // pairs.push(new KeyValue<string, number>("age", 25));
+  // pairs.push(new KeyValue<string, number>("height", 100));
+
+  // pairs.forEach(p => {
+  //   console.log(`${p.key}: ${p.value}`);
+  // });
 
   return (
     <>
