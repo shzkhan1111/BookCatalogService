@@ -16,10 +16,9 @@ const Cart = () => {
         if(creditcardNo){
             //call api for check put and hit order contrroller
             //order service
-            debugger;
             console.log("cartItems");
             console.log(cartItems);
-            debugger;
+            
             const result = await OrderApiService.placeOrder(cartItems  , creditcardNo);
             if(result){
                 alert("Thank you for your purchase");

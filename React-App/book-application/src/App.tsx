@@ -5,19 +5,32 @@ import BookPageMain from './components/BookList/BookPageMain.jsx';
 import Header from './components/BookList/Header.jsx'; 
 import  HomePage  from "./components/Home/HomePage.jsx";
 import NavigationButtons from './components/Navigation/Navigation.jsx';
+import { useSelector } from "react-redux";
+import { RootState } from './store/store.js';
+import LoginPage from './components/Authentication/LoginPage.jsx';
+import ProtectedRoute from './route-gaurds/ProtectedRoute.js';
+import { logout } from './store/authSlice.js';
+import LogoutPage from './components/Authentication/LogoutPage.js';
+import RegisterForm from './components/Authentication/RegisterPage.js';
 
 function App() {
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+
   return (
     <>
      <Router>
      <Header></Header>
+     {/* {isAuthenticated &&  <LogoutPage />} */}
       <Routes>
-        <Route path="/" element={<HomePage></HomePage>}></Route>
-        <Route path="/:id" element={<HomePage></HomePage>}></Route>
-        <Route path="/books" element={<BookPageMain></BookPageMain>}></Route>
+        
+        <Route path="/" element={<ProtectedRoute element={<HomePage />} />}></Route>
+        <Route path="/:id" element={<HomePage />}></Route>
+        <Route path="/books" element={<ProtectedRoute element={<BookPageMain />} />}></Route>
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path='*' element={<HomePage />}></Route>
       </Routes>
-      <NavigationButtons></NavigationButtons>
+      {isAuthenticated && <NavigationButtons />}
      </Router>
     </>
   );

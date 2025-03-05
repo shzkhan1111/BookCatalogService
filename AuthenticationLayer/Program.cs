@@ -10,12 +10,22 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 
-    builder.Services.AddControllers();
-    
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+builder.Services.AddCors(
+    options =>
+    options.AddPolicy("AllowReactApp",
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    }));
 
-    builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 builder.Services.AddDbContext<BookingOrderingDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -46,17 +56,17 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+app.UseCors("AllowReactApp");
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+app.UseHttpsRedirection();
 
-    app.UseHttpsRedirection();
+app.UseAuthorization();
 
-    app.UseAuthorization();
+app.MapControllers();
 
-    app.MapControllers();
-
-    app.Run();
+app.Run();

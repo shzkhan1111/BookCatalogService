@@ -32,24 +32,23 @@ const LoginPage = () => {
         }
         
     }
-
+    const navigateToRegister = () => {
+        navigate('/register');
+    }
     return (
+        <>
+        {isAuthenticated ? (<p>You are loggedin</p>)
+     : (
         <div>
-            <h2>Login</h2>
-            <input 
-            type='text'
-            placeholder='Email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} 
-            />
+            <input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button onClick={handleLogin}>Login</button>
+            <button onClick={navigateToRegister}>Register</button>
+
         </div>
+     )   
+    }
+        </>
     );
 };
 

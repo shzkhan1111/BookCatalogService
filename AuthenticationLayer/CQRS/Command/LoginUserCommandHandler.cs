@@ -37,8 +37,8 @@ namespace AuthenticationLayer.CQRS.Command
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name , request.Username),
-                new Claim(ClaimTypes.NameIdentifier, request.Email),
+                new Claim(ClaimTypes.Name , user.Name),
+                new Claim(ClaimTypes.NameIdentifier, user.Email),
                 new Claim(ClaimTypes.Role, "Purchaser")
             };
             if (user.UserType == "Librarian")
