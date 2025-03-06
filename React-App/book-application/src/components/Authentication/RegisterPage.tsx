@@ -6,7 +6,7 @@ import { setError } from "../../store/bookSlice";
 import LoginService from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 
-const RegisterForm = () => {
+const RegisterFormPage = () => {
  const dispatch = useDispatch();
  const navigate = useNavigate();
  const [registerForm, setRegisterForm] = useState<RegisterForm>({
@@ -70,4 +70,4 @@ const RegisterForm = () => {
  
 }
 
-export default RegisterForm;
+export default RegisterFormPage;

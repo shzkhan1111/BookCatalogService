@@ -10,8 +10,9 @@ import { RootState } from './store/store.js';
 import LoginPage from './components/Authentication/LoginPage.jsx';
 import ProtectedRoute from './route-gaurds/ProtectedRoute.js';
 import { logout } from './store/authSlice.js';
-import LogoutPage from './components/Authentication/LogoutPage.js';
-import RegisterForm from './components/Authentication/RegisterPage.js';
+import LoginPage from './components/Authentication/re';
+
+
 
 function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -26,7 +27,7 @@ function App() {
         <Route path="/" element={<ProtectedRoute element={<HomePage />} />}></Route>
         <Route path="/:id" element={<HomePage />}></Route>
         <Route path="/books" element={<ProtectedRoute element={<BookPageMain />} />}></Route>
-        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/register" element={<RegisterFormPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path='*' element={<HomePage />}></Route>
       </Routes>
